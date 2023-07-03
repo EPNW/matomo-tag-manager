@@ -60,6 +60,7 @@ class TagManager extends \Piwik\Plugin
             'SitesManager.addSite.end' => 'onSiteAdded',
             'System.addSystemSummaryItems' => 'addSystemSummaryItems',
             'Template.endTrackingCodePage' => 'addTagManagerCode',
+            'Template.siteWithoutDataTab.MatomoTagManager.content' => 'setTagManagerCode',
             'Template.endTrackingHelpPage' => 'addTagManagerTrackingCodeHelp',
             'Template.endTrackingCodePageTableOfContents' => 'endTrackingCodePageTableOfContents',
             'Tracker.PageUrl.getQueryParametersToExclude' => 'getQueryParametersToExclude',
@@ -68,8 +69,8 @@ class TagManager extends \Piwik\Plugin
             'Access.Capability.addCapabilities' => 'addCapabilities',
             'TwoFactorAuth.requiresTwoFactorAuthentication' => 'requiresTwoFactorAuthentication',
             'Db.getTablesInstalled' => 'getTablesInstalled',
-            'Template.embedReactTagManagerTrackingCode' => 'embedReactTagManagerTrackingCode',
-            'Template.embedSPATagManagerTrackingCode' => 'embedSPATagManagerTrackingCode',
+            'Template.siteWithoutDataTab.ReactJs.content' => 'embedReactTagManagerTrackingCode',
+            'Template.siteWithoutDataTab.SpaPwa.content' => 'embedSPATagManagerTrackingCode',
         );
     }
 
@@ -267,6 +268,13 @@ class TagManager extends \Piwik\Plugin
         $view->action = Piwik::getAction();
         $view->showContainerRow = $model->getNumContainersTotal() > 1;
         $out .= $view->render();
+    }
+
+    public function setTagManagerCode(&$out)
+    {
+        $newContent = '';
+        $this->addTagManagerCode($newContent);
+        $out = $newContent;
     }
 
     public function embedReactTagManagerTrackingCode(&$out)
